@@ -68,6 +68,7 @@ class EmployeesController extends AppController
     {
         $employee = $this->Employees->newEntity();
         if ($this->request->is('post')) {
+            $this->request->data->hotel_id = $this->Auth->user('hotel.id')
             $employee = $this->Employees->patchEntity($employee, $this->request->data);
             if ($this->Employees->save($employee)) {
                 $this->Flash->success(__('The employee has been saved.'));
@@ -76,7 +77,6 @@ class EmployeesController extends AppController
                 $this->Flash->error(__('The employee could not be saved. Please, try again.'));
             }
         }
-        $users = $this->Employees->Users->find('list', ['limit' => 200]);
         $hotels = $this->Employees->Hotels->find('list', ['limit' => 200]);
         $courses = $this->Employees->Courses->find('list', ['limit' => 200]);
         $this->set(compact('employee', 'users', 'hotels', 'courses'));
